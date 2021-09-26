@@ -89,9 +89,10 @@ function my_acf_blocks_init() {
         // Register a split image block.
         acf_register_block_type(array(
             'name'            => 'jhl-split-image-block',
-            'title'           => __('Split Image Block'),
+            'title'           => __('Split Image'),
             'description'     => __('Block with an image on one side, content on the other'),
             'render_template' => 'template-parts/blocks/split-image/split-image.php',
+            'enqueue_style'   => get_stylesheet_directory_uri() . '/template-parts/blocks/split-image/split-image.css',
             'category'        => 'layout',
             'icon'            => 'analytics'
         ));
@@ -113,7 +114,9 @@ keywords — What users can type in to find your block. You can use up to three 
 
 # Block Registered
 
-At this point we can go see that the block is registered and starting to show up in the block editor.
+At this point we can go to the block editor and see that the block is registered correctly and shows up in the list of available blocks.
+
+However if we click on it, nothing happens because the block is not hooked up to ACF yet.
 
 ![right fit](assets/split-image-block-in-block-editor.png)
 
@@ -135,25 +138,127 @@ At this point we can go see that the block is registered and starting to show up
 
 # Creating the block in ACF
 
+Create the fields in ACF
+
+![inline](assets/acf-split-image-block-custom-fields.png)
+
+---
+
+# Creating the block in ACF
+
+Set the appearance to "Block" and the name of the block we specified earlier "Split Image Block"
+
+![inline](assets/acf-split-image-block-location.png)
+
 ---
 
 # Block template coding
+
+```php
+acf_register_block_type(array(
+    'name'            => 'jhl-split-image-block',
+    'title'           => __('Split Image'),
+    'description'     => __('Block with an image on one side, content on the other'),
+    'render_template' => 'template-parts/blocks/split-image/split-image.php',
+    'enqueue_style'   => get_stylesheet_directory_uri() . '/template-parts/blocks/split-image/split-image.css',
+    'category'        => 'layout',
+    'icon'            => 'analytics'
+));
+```
+
+---
+
+# Block template coding
+
+[.code-highlight: 5]
+
+```php
+acf_register_block_type(array(
+    'name'            => 'jhl-split-image-block',
+    'title'           => __('Split Image'),
+    'description'     => __('Block with an image on one side, content on the other'),
+    'render_template' => 'template-parts/blocks/split-image/split-image.php',
+    'enqueue_style'   => get_stylesheet_directory_uri() . '/template-parts/blocks/split-image/split-image.css',
+    'category'        => 'layout',
+    'icon'            => 'analytics'
+));
+```
+
+---
+
+# Block template coding
+
+Create the folder structure in your child theme
+
+`template-parts/blocks/split-image/`
+
+Create a file called `split-image.php`
+
+![right](assets/acf-block-template-file-structure.png)
+
+---
+
+# Block template coding
+
+```html
+<?php
+$acf_fields = get_fields();
+$align_class = $block['align'] ? 'align' . $block['align'] : '';
+?>
+<div class="split-image-wrapper <?php echo $align_class; ?>">
+  <div class="split-image-text">
+    <div class="split-image-title"><?php echo $acf_fields['title']; ?></div>
+    <div class="split-image-subtitle"><?php echo $acf_fields['subtitle']; ?></div>
+    <div class="split-image-content"><?php echo $acf_fields['content']; ?></div>
+    <div class="split-image-button">
+      <a href="<?php echo $acf_fields['button-link']; ?>"><?php echo $acf_fields['button-text']; ?></a>
+    </div>
+  </div>
+  <div class="split-image-image" style="background-image:url(<?php echo $acf_fields['image']; ?>);"></div>
+</div>
+```
+
+^ Show actual code with if statements and better formatting
 
 ---
 
 # Using the block in the editor
 
+![inline](assets/acf-split-image-in-editor.png)
+
 ---
 
-# Final result
+# Using the block in the editor
+
+![inline](assets/acf-split-image-in-editor-switch.png)
+
+---
+
+# Using the block in the editor
+
+![inline](assets/acf-split-image-preview.png)
+
+^ Demo it in the editor
+
+---
+
+# Final result in editor
+
+![inline](assets/acf-slplit-image-backend-final.png)
+
+---
+
+# Final result on site
+
+![inline](assets/acf-slplit-image-frontend-final.png)
 
 ---
 
 # References
 
-- https://www.advancedcustomfields.com/resources/blocks/
-- https://torquemag.io/2020/01/create-gutenberg-block-with-acf/
-- https://whiteleydesigns.com/acf-gutenberg-block-examples/
+- [https://www.advancedcustomfields.com/resources/blocks/]()
+- [https://torquemag.io/2020/01/create-gutenberg-block-with-acf/]()
+- [https://whiteleydesigns.com/acf-gutenberg-block-examples/]()
 
 ---
 
