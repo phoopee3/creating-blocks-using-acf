@@ -574,6 +574,14 @@ acf_register_block_type(array(
 
 ---
 
+# Repositories
+
+Presentation - [https://github.com/phoopee3/creating-blocks-using-acf]()
+
+Code - [https://github.com/phoopee3/creating-blocks-using-acf-code]()
+
+---
+
 # Q&A
 
 ---
