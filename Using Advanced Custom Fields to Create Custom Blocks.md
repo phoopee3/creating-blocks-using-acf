@@ -4,6 +4,7 @@ slidenumbers: true
 # [fit] Using Advanced Custom Fields<br>to Create Custom Blocks
 
 Jason Lawton
+jason@jasonlawton.com
 WordPress Developer
 MCS
 
