@@ -6,20 +6,43 @@ slidenumbers: true
 Jason Lawton
 jason@jasonlawton.com
 WordPress Developer
-MCS
+Merck - MCS
+
+---
+
+# Who am I?
+
+- WordPress/full stack developer
+- Programming for 20 years
+- Using WordPress for about 10 years
+- Custom themes
+- Custom plugins
 
 ---
 
 # What we will cover
 
-- Why create a block using ACF?
+- Why create a block using ACF
 - What we want to accomplish
 - Creating a child theme
 - Block registration
 - Creating the block in ACF
 - Block template coding
 - Using the block in the editor
-- Final result
+- Demo of the final result
+
+---
+
+# What are blocks?
+
+- Blocks are the way in which WordPress organizes content inside your blog posts and/or pages
+- Everything is (or will be) a block
+- Examples of blocks
+  - Paragraph
+  - Heading
+  - List
+  - Image
+  - ...and so on
 
 ---
 
@@ -41,11 +64,19 @@ MCS
 
 Split image block
 
-  - Image
   - Title
+  - Image
   - Subtitle
   - Content
   - Call to action
+
+^ Block that has an image on one side, and content - title, subtitle, content, and button on the other side.
+
+---
+
+# Split image block
+
+![inline](assets/acf-slplit-image-backend-final.png)
 
 ^ Block that has an image on one side, and content - title, subtitle, content, and button on the other side.
 
@@ -65,6 +96,14 @@ Latest posts block
 
 ---
 
+# Latest posts block
+
+![inline](assets/acf-latest-posts-front-end.png)
+
+^ This will be similar to the split image block, but will have options to pull in the latest posts from a category.
+
+---
+
 # Anything else?
 
 Slider block
@@ -78,6 +117,12 @@ This is a more advanced block that loads javascript libraries for showing the ga
 
 ---
 
+# Slider block
+
+![inline](assets/acf-slider-frontend.png)
+
+---
+
 # How are we going to make them?
 
 - Create a child theme
@@ -88,6 +133,8 @@ This is a more advanced block that loads javascript libraries for showing the ga
 - View it on the front end of the site
 
 ^ We are creating a child theme because we have to add code to the functions.php file, and if the main theme gets an update, we don't want to lose the modifications we've done.
+
+^ The other option is to make a custom plugin to load these blocks, it depends if the blocks you're creating are closely tied to the theme you are using.
 
 ---
 
@@ -119,7 +166,7 @@ function my_acf_blocks_init() {
             'name'            => 'jhl-split-image-block',
             'title'           => __('Split Image'),
             'description'     => __('Block with an image on one side, content on the other'),
-            'render_template' => 'template-parts/blocks/split-image/split-image.php',
+            'render_template' => get_stylesheet_directory_uri() . '/template-parts/blocks/split-image/split-image.php',
             'enqueue_style'   => get_stylesheet_directory_uri() . '/template-parts/blocks/split-image/split-image.css',
             'category'        => 'layout',
             'icon'            => 'analytics'
@@ -166,16 +213,6 @@ Break down the block into a form that the user will fill out.
 
 The difference is that the user can place the block wherever they want, and reuse it multiple times on the page.
 
-[.column]
-- Image
-- Title
-- Subtitle
-
-[.column]
-- Content
-- Button text
-- Button link
-
 ^ To me, this is the biggest change and advantage in using blocks. Previously the ACF fields would be at the bottom of the page, and you'd only be able to control where they went by modifying the page template. Using blocks though, you can give the user more control over where and how they use the block.
 
 ---
@@ -203,12 +240,14 @@ acf_register_block_type(array(
     'name'            => 'jhl-split-image-block',
     'title'           => __('Split Image'),
     'description'     => __('Block with an image on one side, content on the other'),
-    'render_template' => 'template-parts/blocks/split-image/split-image.php',
+    'render_template' => get_stylesheet_directory_uri() . '/template-parts/blocks/split-image/split-image.php',
     'enqueue_style'   => get_stylesheet_directory_uri() . '/template-parts/blocks/split-image/split-image.css',
     'category'        => 'layout',
     'icon'            => 'analytics'
 ));
 ```
+
+^ Lets revisit the `acf_register_block_type` method
 
 ---
 
@@ -221,7 +260,7 @@ acf_register_block_type(array(
     'name'            => 'jhl-split-image-block',
     'title'           => __('Split Image'),
     'description'     => __('Block with an image on one side, content on the other'),
-    'render_template' => 'template-parts/blocks/split-image/split-image.php',
+    'render_template' => get_stylesheet_directory_uri() . '/template-parts/blocks/split-image/split-image.php',
     'enqueue_style'   => get_stylesheet_directory_uri() . '/template-parts/blocks/split-image/split-image.css',
     'category'        => 'layout',
     'icon'            => 'analytics',
@@ -242,7 +281,7 @@ acf_register_block_type(array(
     'name'            => 'jhl-split-image-block',
     'title'           => __('Split Image'),
     'description'     => __('Block with an image on one side, content on the other'),
-    'render_template' => 'template-parts/blocks/split-image/split-image.php',
+    'render_template' => get_stylesheet_directory_uri() . '/template-parts/blocks/split-image/split-image.php',
     'enqueue_style'   => get_stylesheet_directory_uri() . '/template-parts/blocks/split-image/split-image.css',
     'category'        => 'layout',
     'icon'            => 'analytics',
@@ -290,9 +329,9 @@ $align_class = $block['align'] ? 'align' . $block['align'] : '';
 
 ^ Show actual code with if statements and better formatting.
 
-^ The get_fields gets all of the acf fields and returns them as an array. I find that easier than making separate get_field method calls.
+^ The `get_fields` gets all of the acf fields and returns them as an array. I find that easier than making separate `get_field` method calls.
 
-^ The align_class line gets the width that was specified from the block editor, like wide, full-width, etc.
+^ The `align_class` line gets the width that was specified from the block editor, like wide, full-width, etc.
 
 ---
 
@@ -329,7 +368,7 @@ acf_register_block_type(array(
     'name'            => 'jhl-split-image-block',
     'title'           => __('Split Image'),
     'description'     => __('Block with an image on one side, content on the other'),
-    'render_template' => 'template-parts/blocks/split-image/split-image.php',
+    'render_template' => get_stylesheet_directory_uri() . '/template-parts/blocks/split-image/split-image.php',
     'enqueue_style'   => get_stylesheet_directory_uri() . '/template-parts/blocks/split-image/split-image.css',
     'category'        => 'layout',
     'icon'            => 'analytics',
@@ -337,7 +376,7 @@ acf_register_block_type(array(
 ));
 ```
 
-^ To get around this issue of having the block be empty when first loaded, I like to set the mode to be edit.
+^ To get around this issue of having the block be empty when first loaded, I like to set the `mode` to be `edit`.
 
 ---
 
@@ -376,7 +415,7 @@ acf_register_block_type(array(
     'name'            => 'jhl-latest-posts-block',
     'title'           => __('Latest Posts'),
     'description'     => __('Block with an title, content, and latest posts'),
-    'render_template' => 'template-parts/blocks/latest-posts/latest-posts.php',
+    'render_template' => get_stylesheet_directory_uri() . '/template-parts/blocks/latest-posts/latest-posts.php',
     'enqueue_style'   => get_stylesheet_directory_uri() . '/template-parts/blocks/latest-posts/latest-posts.css',
     'category'        => 'layout',
     'icon'            => 'analytics',
@@ -467,7 +506,7 @@ acf_register_block_type(array(
     'name'            => 'slider',
     'title'           => __('Slider'),
     'description'     => __('ACF Slider w/large image support.'),
-    'render_template' => 'template-parts/blocks/slider/slider.php',
+    'render_template' => get_stylesheet_directory_uri() . '/template-parts/blocks/slider/slider.php',
     'category'        => 'embed',
     'icon'            => 'format-gallery',
     'keywords'        => array( 'slider', 'gallery', 'carousel' ),
@@ -495,7 +534,7 @@ acf_register_block_type(array(
     'name'            => 'slider',
     'title'           => __('Slider'),
     'description'     => __('ACF Slider w/large image support.'),
-    'render_template' => 'template-parts/blocks/slider/slider.php',
+    'render_template' => get_stylesheet_directory_uri() . '/template-parts/blocks/slider/slider.php',
     'category'        => 'embed',
     'icon'            => 'format-gallery',
     'keywords'        => array( 'slider', 'gallery', 'carousel' ),
@@ -525,7 +564,7 @@ acf_register_block_type(array(
     'name'            => 'slider',
     'title'           => __('Slider'),
     'description'     => __('ACF Slider w/large image support.'),
-    'render_template' => 'template-parts/blocks/slider/slider.php',
+    'render_template' => get_stylesheet_directory_uri() . '/template-parts/blocks/slider/slider.php',
     'category'        => 'embed',
     'icon'            => 'format-gallery',
     'keywords'        => array( 'slider', 'gallery', 'carousel' ),
@@ -583,9 +622,8 @@ Code - [https://github.com/phoopee3/creating-blocks-using-acf-code]()
 
 ---
 
-# Q&A
+# Thank you
 
 ---
 
-# Thank you
-
+# Q&A
