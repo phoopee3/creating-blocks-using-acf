@@ -12,6 +12,7 @@ Merck - MCS
 
 # Who am I?
 
+- Jason Lawton
 - WordPress/full stack developer
 - Programming for 20 years
 - Using WordPress for about 10 years
